@@ -1,4 +1,4 @@
-filename = '2024_f\\7.txt'
+filename = 'files_txt\\7.txt'
 
 converted_input = []
 with open(filename, 'r') as file:
