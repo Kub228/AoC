@@ -3,7 +3,7 @@ filename = 'files_txt\\7.txt'
 converted_input = []
 with open(filename, 'r') as file:
     for line in file:
-        numbers = [int(num) for num in line.replace(":", " ").split()]
+        numbers = [int(num) for num in line.split()]
         converted_input.append(numbers)
 
 #part1
