@@ -1,5 +1,4 @@
 def is_safe(sequence):
-    # Check if sequence is already safe without removing any number
     incrs = all(sequence[i] < sequence[i+1] for i in range(len(sequence)-1))
     dcrs = all(sequence[i] > sequence[i+1] for i in range(len(sequence)-1))
     valid_diff = all(1 <= abs(sequence[i] - sequence[i+1]) <= 3 for i in range(len(sequence)-1))
@@ -7,7 +6,6 @@ def is_safe(sequence):
     if (incrs or dcrs) and valid_diff:
         return True
     
-    # Try removing each number and check if resulting sequence is safe
     for i in range(len(sequence)):
         new_seq = sequence[:i] + sequence[i+1:]
         

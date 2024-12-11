@@ -1,4 +1,4 @@
-filename = '2024_f\\6.txt'
+filename = 'AoC\\2024\\files_txt\\6.txt'
 
 def read_grid(filename):
     with open(filename, 'r') as file:
