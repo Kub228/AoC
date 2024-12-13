@@ -2,6 +2,7 @@ filename = 'AoC\\2024\\files_txt\\9.txt'
 
 
 def sol1(numbers):
+    global pace
 
     numbers = [int(digit) for digit in str(numbers)]
     
@@ -9,7 +10,9 @@ def sol1(numbers):
     id_assigned = -1
     ID_disk_sorted = []
     total = 0
-
+    
+    pace = 100
+    
     for i in range(len(numbers)):
         free_or_not += 1
 
@@ -61,70 +64,61 @@ def sol1(numbers):
     print(f'Digits: {len(total)}')
     
 def sol2(numbers):
-    
     numbers = [int(digit) for digit in str(numbers)]
-    free_or_not = 0
-    id_assigned = -1
     ID_disk_sorted = []
-    total = 0
+    id_assigned = -1
     
     for i in range(len(numbers)):
-        free_or_not += 1
-        if free_or_not % 2 == 0:
-            for j in range(numbers[i]):
-                ID_disk_sorted.append('.')
-        else:
+        if i % 2 == 0:
             id_assigned += 1
-            for j in range(numbers[i]):
-                ID_disk_sorted.append(id_assigned)
-    
+            ID_disk_sorted.extend([id_assigned] * numbers[i])
+        else:
+            ID_disk_sorted.extend(['.'] * numbers[i])
+
     print(f'Not updated: {ID_disk_sorted}')
-    
-    for i in range(id_assigned, -1, -1):
-        file_count = 0
-        for j in range(len(ID_disk_sorted)):
-            if ID_disk_sorted[j] == i:
-                file_count += 1
-                
-        if file_count == 0:
+
+    max_id = id_assigned
+    for current_id in range(max_id, -1, -1):
+        file_blocks = [(i, block) for i, block in enumerate(ID_disk_sorted) if block == current_id]
+        if not file_blocks:
             continue
-            
-        for j in range(len(ID_disk_sorted)):
-            free_count = 0
-            for k in range(j, min(j + file_count, len(ID_disk_sorted))):
-                if ID_disk_sorted[k] == '.':
-                    free_count += 1
-                    
-            if free_count == file_count:
-                file_pos = -1
-                for k in range(len(ID_disk_sorted)):
-                    if ID_disk_sorted[k] == i:
-                        file_pos = k
-                        break
-                        
-                if file_pos > j:
-                    for k in range(file_count):
-                        ID_disk_sorted[j + k] = i
-                        ID_disk_sorted[file_pos + k] = '.'
-                break
-            
-            if i % 1000 == 0:
-                print(f'\nUpdating{i}:    {ID_disk_sorted}')
-    
+        
+        file_length = len(file_blocks)
+        
+        free_space_start = None
+        free_space_count = 0
+        
+        for i, block in enumerate(ID_disk_sorted):
+            if block == '.':
+                if free_space_start is None:
+                    free_space_start = i
+                free_space_count += 1
+                
+                if free_space_count == file_length:
+                    if free_space_start < file_blocks[0][0]:
+                        for j in range(file_length):
+                            ID_disk_sorted[free_space_start + j] = current_id
+                            ID_disk_sorted[file_blocks[j][0]] = '.'
+                    break
+            else:
+                free_space_start = None
+                free_space_count = 0
+        
+        
+        if i % pace == 0:
+            print(f'\nUpdating: {i//pace}')
+
     print(f'Updated: {ID_disk_sorted}')
-    
-    for i in range(len(ID_disk_sorted)):
-        if ID_disk_sorted[i] != '.':
-            total += i * ID_disk_sorted[i]
-            
-    print(total)
 
-
+    total = 0
+    for i, block in enumerate(ID_disk_sorted):
+        if block != '.':
+            total += i * block
     
+    print(f'Total: {total}')
 
 
 with open(filename, 'r') as file:
-    content = file.read().strip() 
-    numbers = content  
-    # sol1(numbers)
-    sol2(numbers)
+    content = file.read().strip()
+    sol2(content)
+
