@@ -1,30 +1,35 @@
 import re
 
+def sol1(memory):
+    pattern = r'mul\((\d+),(\d+)\)'
+    matches = re.findall(pattern, memory)
+    total = sum(int(x) * int(y) for x, y in matches)
+    return total
 
-def get_lines():
-    with open("2024_f\\3.txt") as file:
-        for ln in file:
-            yield ln.strip()
+def sol2(memory):
+    mul_pattern = r'mul\((\d+),(\d+)\)'
+    do_pattern = r'do\(\)'
+    dont_pattern = r'don\'t\(\)'
+    
+    total = 0
+    enabled = True
+    
+    tokens = re.split(r'(mul\(\d+,\d+\)|do\(\)|don\'t\(\))', memory)
+    
+    for token in tokens:
+        if re.match(mul_pattern, token):
+            if enabled:
+                x, y = map(int, re.findall(r'\d+', token))
+                total += x * y
+        elif re.match(do_pattern, token):
+            enabled = True
+        elif re.match(dont_pattern, token):
+            enabled = False
+    
+    return total
 
+with open("AoC\\2024\\files_txt\\3.txt", 'r') as file:
+    memory = file.read().strip()
 
-def sum_muls(muls):
-    """a mul is a tuple of two integer strings"""
-    return sum([int(mul[0]) * int(mul[1]) for mul in muls])
-
-
-def solution_1(memory_dumps):
-    p = re.compile(r"mul\((\d+),(\d+)\)")
-    return sum([sum_muls(p.findall(dump)) for dump in memory_dumps])
-
-
-def solution_2(memory_dumps):
-    return solution_1(
-        [
-            re.split(r"don\'t\(\)", do_section)[0]
-            for do_section in re.split(r"do\(\)", "".join(memory_dumps))
-        ]
-    )
-
-
-print(solution_1(get_lines()))
-print(solution_2(get_lines()))
+print(f"Part 1 result: {sol1(memory)}")
+print(f"Part 2 result: {sol2(memory)}")
