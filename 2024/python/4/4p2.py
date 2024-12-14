@@ -6,7 +6,6 @@ def check_xmas_pattern(grid, i, j):
     if i + 2 >= len(grid) or j - 1 < 0 or j + 1 >= len(grid[0]):
         return False
         
-    # Center must be 'A'
     if grid[i+1][j] != 'A':
         return False
         
