@@ -40,7 +40,6 @@ def sol1(f1, f2):
                 n = []
             
             if f2[i] == '\n':
-                # Check if this update is in correct order
                 valid = True
                 for i in range(len(pg_o)):
                     for j in range(i + 1, len(pg_o)):
@@ -93,7 +92,6 @@ def sol2(f1, f2):
                 n = []
             
             if f2[i] == '\n':
-                # Check if this update is in correct order
                 valid = True
                 for i in range(len(pg_o)):
                     for j in range(i + 1, len(pg_o)):
@@ -105,20 +103,16 @@ def sol2(f1, f2):
                 
                 if not valid: 
                     
-                    # Perform topological sort for reordering
                     from collections import defaultdict, deque
                     
-                    # Build graph
                     graph = defaultdict(list)
                     in_degree = defaultdict(int)
                     nodes = set(pg_o)
                     
-                    # Add all nodes first
                     for node in pg_o:
                         if node not in graph:
                             graph[node] = []
                     
-                    # Add edges from rules
                     for node in nodes:
                         if node in rules:
                             for next_node in rules[node]:
@@ -126,7 +120,6 @@ def sol2(f1, f2):
                                     graph[node].append(next_node)
                                     in_degree[next_node] += 1
                     
-                    # Topological sort
                     queue = deque([node for node in nodes if in_degree[node] == 0])
                     ordered = []
                     
@@ -138,7 +131,6 @@ def sol2(f1, f2):
                             if in_degree[neighbor] == 0:
                                 queue.append(neighbor)
                     
-                    # Only add to total if we have all nodes in ordered result
                     if len(ordered) == len(pg_o) and len(ordered) % 2 != 0:
                         mid = len(ordered) // 2
                         total += ordered[mid]

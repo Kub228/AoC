@@ -1,13 +1,10 @@
 with open("2024_f\\4.txt", "r") as file:
-    # Clean up the input grid by stripping whitespace
     grid = [line.strip() for line in file.readlines()]
 
 def check_word(grid, i, j, di, dj, word):
-    # Check if word fits within grid bounds in this direction
     if (0 <= i + di * (len(word)-1) < len(grid) and 
         0 <= j + dj * (len(word)-1) < len(grid[0])):
         
-        # Check each character of the word
         for k in range(len(word)):
             if grid[i + di*k][j + dj*k] != word[k]:
                 return False
@@ -16,10 +13,10 @@ def check_word(grid, i, j, di, dj, word):
     
 def find_xmas(grid):
     rows = len(grid)
-    cols = len(grid[0])  # len of first row for columns
+    cols = len(grid[0]) 
     count = 0
     
-    # Define all 8 directions to search
+    
     directions = [
         (0,1),   # right
         (1,0),   # down

@@ -1,5 +1,5 @@
 with open("2024_f\\4.txt", "r") as file:
-    # Clean up the input grid by stripping whitespace
+    
     grid = [line.strip() for line in file.readlines()]
 
 def check_xmas_pattern(grid, i, j):
@@ -10,7 +10,7 @@ def check_xmas_pattern(grid, i, j):
     if grid[i+1][j] != 'A':
         return False
         
-    # Check all possible patterns:
+    
     # Pattern 1:    Pattern 2:    Pattern 3:    Pattern 4:
     # M.S          S.M          S.S          M.M
     # .A.          .A.          .A.          .A.
@@ -21,17 +21,14 @@ def check_xmas_pattern(grid, i, j):
     bottom_left = grid[i+2][j-1]
     bottom_right = grid[i+2][j+1]
     
-    # Original pattern (MAS on both diagonals)
     pattern1 = ((top_left == 'M' and top_right == 'S' and
                 bottom_left == 'M' and bottom_right == 'S') or
                (top_left == 'S' and top_right == 'M' and
                 bottom_left == 'S' and bottom_right == 'M'))
                 
-    # S on top, M on bottom
     pattern2 = (top_left == 'S' and top_right == 'S' and
                bottom_left == 'M' and bottom_right == 'M')
                
-    # M on top, S on bottom
     pattern3 = (top_left == 'M' and top_right == 'M' and
                bottom_left == 'S' and bottom_right == 'S')
     
