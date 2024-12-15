@@ -1,9 +1,7 @@
 from collections import deque
-from functools import lru_cache
 import math
 
 filename = 'AoC\\2024\\files_txt\\11.txt'
-
 
 with open(filename, 'r') as file:
     for line in file:
@@ -89,9 +87,8 @@ def sol2(stones):
     total = len(stones)
     print(f'Solution: {total}')
     
+    
 #optimised algorythm v3
-
-
 
 def sol2_v2(stones):
     memo = {}
