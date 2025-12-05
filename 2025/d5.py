@@ -10,8 +10,8 @@ inpt='''3-5
         17
         32'''.split()
 
-# with open("txt_files\\d5.txt") as f:
-#   inpt = f.read().split()
+with open("txt_files\\d5.txt") as f:
+  inpt = f.read().split()
 
 # ids=[int(x) for x in inpt if '-' not in x]
 rng_of_ids=[x for x in inpt if '-' in x]
@@ -19,7 +19,7 @@ rng_of_ids=[x for x in inpt if '-' in x]
 rng_of_ids=[x.split('-') for x in rng_of_ids]
 rng_of_ids=[(int(x[0]), int(x[1])) for x in rng_of_ids]
 
-print(rng_of_ids)
+# print(rng_of_ids)
 # print(ids)
 
 def is_fresh_p1(ids,rng_of_ids):
@@ -49,10 +49,21 @@ def is_fresh_p2(rng_of_ids):
 
     # return len(ans)
 
-    ans=[]
-    for i in rng_of_ids:
-        pass
+    if not rng_of_ids:
+        return []
+    rng_of_ids.sort()
+    ans = [rng_of_ids[0]]
+    for current in rng_of_ids[1:]:
+        last = ans[-1]
+        if current[0] <= last[1]:
+            ans[-1] = (last[0], max(last[1], current[1]))
 
+        else:
+            ans.append(current)
+    
+    ans = [x[1]-x[0]+1 for x in ans]
+
+    return sum(ans)
 
 
 # print(is_fresh_p1(ids,rng_of_ids))
